@@ -24,6 +24,10 @@ export const authRoutes: Routes = [
         title: 'switches',
         component: SwitchesPageComponent,
       },
+      {
+        path: ' ',
+        redirectTo: 'basic',
+      }
     ]
   },
 ];
