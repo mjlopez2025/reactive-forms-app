@@ -8,12 +8,15 @@ export const authRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'sign-up', component: RegisterPageComponent,
+        path: 'registro',
+        component: RegisterPageComponent,
       },
       {
         path: '**',
-        redirectTo: 'sing-up',
+        redirectTo: 'registro',
       }
     ],
   },
 ]
+
+export default authRoutes;
