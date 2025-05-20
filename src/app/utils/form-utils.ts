@@ -42,7 +42,7 @@ export class FormUtils {
 
     const errors = formArray.controls[ index ].errors ?? {};
 
-    return FormUtils.getTextError(errors);
+    return FormUtils.getTextError(errors);    
   };
 
 
