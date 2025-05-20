@@ -13,12 +13,11 @@ export class DynamicPageComponent {
 
   myForm: FormGroup = this.fb.group({
     name: ['', Validators.required, Validators.minLength(3)],
-    favoriteGames: this.fb.array(
-      [
+    favoriteGames: this.fb.array([
         ['Metal Gear', Validators.required],
         ['Death Stranding', Validators.required],
       ],
-      Validators.minLength(3)
+      Validators.minLength(2)
     ),
   });
 
