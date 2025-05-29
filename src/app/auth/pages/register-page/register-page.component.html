@@ -12,11 +12,11 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre del usuario"
+                           placeholder="Nombre y Apellido"
                            formControlName="name"/>
                         @if (formUtils.isValidField(myForm, 'name')) {
                             <span class="form-text text-danger">
-                                {{ formUtils.getFieldError(myForm, 'name') }}
+                                El campo debe tener Nombre y Apellido
                             </span> 
                         }    
                 </div>
@@ -32,6 +32,7 @@
                            formControlName="email">
                     @if (formUtils.isValidField(myForm, 'email')) {
                             <span class="form-text text-danger">
+                                <!-- El valor ingresado no corresponde a un correo electronico válido. -->
                                 {{ formUtils.getFieldError(myForm, 'email') }}
                             </span> 
                         }
@@ -44,7 +45,7 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre código del usuario"
+                           placeholder="Nombre usuario"
                            formControlName="username">
                     @if (formUtils.isValidField(myForm, 'username')) {
                             <span class="form-text text-danger">
