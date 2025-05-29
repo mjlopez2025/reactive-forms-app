@@ -7,11 +7,13 @@ export class FormUtils {
     for( const key of Object.keys(errors) ) {
       switch( key ) {
         case 'required':
-          return 'Este campo es requerido';
+          return 'Este campo es requerido.';
         case 'minlength':
           return `Minimo de ${errors['minlength'].requiredLength} caracteres.`;
         case 'min':
-          return `Valor minimo de ${errors['min'].min}`;
+          return `Valor minimo de ${errors['min'].min}.`;
+        case 'email':
+          return `El valor no corresponde a un email.`;
       }
     }
     return null;
