@@ -8,6 +8,8 @@ export class FormUtils {
 
   static getTextError(errors: ValidationErrors){
 
+    console.log(errors)
+
     for( const key of Object.keys(errors) ) {
       switch( key ) {
         case 'required':
@@ -18,11 +20,12 @@ export class FormUtils {
           return `Valor minimo de ${errors['min'].min}.`;
         case 'email':
           return `El valor ingresado no es un correo electronico.`;
-        case 'pattern':
-          if( errors['pattern'].requiredPattern === FormUtils.emailPattern ) {
-            return 'El valor no corresponde a un correo electrónico valido';
-          }
-        return `El valor no corresponde al patron regular`;
+
+          case 'pattern':
+            if( errors['pattern'].requiredPattern === FormUtils.emailPattern ) {
+              return 'El valor ingresado no luce como un correo eletrónico .';
+            }
+            return 'Error de patron contra expresion regular.'
         default:
           return 'Error de validación no controlado.';
       }
