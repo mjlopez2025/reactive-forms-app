@@ -1,13 +1,7 @@
 import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 
-async function sleep() {
-  return new Promise( resolve => {
-    setTimeout(() => {
-      resolve: (true)
-    }, 2500);
-  })
-}
+
 export class FormUtils {
 
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
@@ -15,9 +9,6 @@ export class FormUtils {
   static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
 
   static getTextError(errors: ValidationErrors){
-
- 
-
     for( const key of Object.keys(errors) ) {
       switch( key ) {
         case 'required':
@@ -80,19 +71,5 @@ export class FormUtils {
     }
   }
 
-  static async checkingServerResponse( control: AbstractControl):Promise <ValidationErrors | null> {
-    console.log('Validando si el email ya existe en el servidor...'); 
-
-    await sleep();
-
-    const formValue = control.value;
-
-    if(formValue ==='hola@mundo.com') {
-      return {
-        emailTaken: true,
-      };
-    }
-
-    return null;
-  }
+  
 }
