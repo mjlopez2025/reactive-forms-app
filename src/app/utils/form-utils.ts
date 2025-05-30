@@ -1,4 +1,4 @@
-import { FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 export class FormUtils {
 
@@ -8,7 +8,7 @@ export class FormUtils {
 
   static getTextError(errors: ValidationErrors){
 
-    console.log(errors)
+ 
 
     for( const key of Object.keys(errors) ) {
       switch( key ) {
@@ -63,4 +63,12 @@ export class FormUtils {
 
 
 
+  static isFieldOneEqualFieldTwo(field1: string, field2: string) {
+    return ( formGrup: AbstractControl) => {
+      const field1Value = formGrup.get(field1)?.value;
+      const field2Value = formGrup.get(field2)?.value;
+
+      return field1Value === field2Value ? null : { passwordsNotEqual: true };
+    }
+  }
 }
