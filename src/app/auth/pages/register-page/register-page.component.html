@@ -1,5 +1,5 @@
 <h2>Validaciones Reactivas</h2>
-<hr> 
+<hr>
 
 <div class="row">
     <div class="col">
@@ -12,13 +12,18 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre y Apellido"
-                           formControlName="name"/>
-                        @if (formUtils.isValidField(myForm, 'name')) {
-                            <span class="form-text text-danger">
-                                El campo debe tener Nombre y Apellido
-                            </span> 
-                        }    
+                           placeholder="Nombre del usuario"
+                           formControlName="name"
+                           />
+
+                           @if (formUtils.isValidField(myForm, 'name')) {
+                            <span class="form-text text-success">
+                                {{ formUtils.getFieldError(myForm, 'name') }}
+                            </span>
+                           }
+                    <!-- <span class="form-text text-danger">
+                        Debe  de ser en formato de nombre y apellido
+                    </span> -->
                 </div>
             </div>
 
@@ -29,13 +34,13 @@
                     <input type="email"
                            class="form-control"
                            placeholder="Email del usuario"
-                           formControlName="email">
+                           formControlName="email"
+                           >
                     @if (formUtils.isValidField(myForm, 'email')) {
-                            <span class="form-text text-danger">
-                                <!-- El valor ingresado no corresponde a un correo electronico válido. -->
+                            <span class="form-text text-success">
                                 {{ formUtils.getFieldError(myForm, 'email') }}
-                            </span> 
-                        }
+                            </span>
+                           }
                 </div>
             </div>
 
@@ -45,13 +50,14 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre usuario"
-                           formControlName="username">
+                           placeholder="Nombre código del usuario"
+                           formControlName="username"
+                           >
                     @if (formUtils.isValidField(myForm, 'username')) {
-                            <span class="form-text text-danger">
+                            <span class="form-text text-success">
                                 {{ formUtils.getFieldError(myForm, 'username') }}
-                            </span> 
-                        }
+                            </span>
+                           }
                 </div>
             </div>
 
@@ -62,12 +68,14 @@
                     <input type="password"
                            class="form-control"
                            placeholder="Password de su cuenta"
-                           formControlName="password">
+                           formControlName="password"
+                           />
+
                     @if (formUtils.isValidField(myForm, 'password')) {
-                            <span class="form-text text-danger">
+                            <span class="form-text text-success">
                                 {{ formUtils.getFieldError(myForm, 'password') }}
-                            </span> 
-                        }
+                            </span>
+                           }
                 </div>
             </div>
 
@@ -79,11 +87,12 @@
                            class="form-control"
                            placeholder="Confirmar la contraseña"
                            formControlName="password2">
+
                     @if (formUtils.isValidField(myForm, 'password2')) {
-                            <span class="form-text text-danger">
+                            <span class="form-text text-success">
                                 {{ formUtils.getFieldError(myForm, 'password2') }}
-                            </span> 
-                        }
+                            </span>
+                           }
                 </div>
             </div>
 
@@ -103,14 +112,14 @@
 </div>
 
 
-<h2>Form Valid: {{ myForm.valid }} </h2>
-<h2>Form Status: {{ myForm.status }} </h2>
-<h2>Form Pending: {{ myForm.pending }} </h2>
+<h2>Form Valid: {{ myForm.valid }}</h2>
+<h2>Form Status: {{ myForm.status }}</h2>
+<h2>Form Pending: {{ myForm.pending }}</h2>
 <h2>Form errors</h2>
 <pre>{{ myForm.errors | json }}</pre>
 
 <h5>Value</h5>
-<pre>{{ myForm.value| json }}</pre>
+<pre>{{ myForm.value | json }}</pre>
 
 <h5>Nombre</h5>
 <pre>{{ myForm.controls['name'].errors | json }}</pre>
@@ -120,7 +129,6 @@
 
 <h5>Username</h5>
 <pre>{{ myForm.controls['username'].errors | json }}</pre>
-
 
 <h5>Password</h5>
 <pre>{{ myForm.controls['password'].errors | json }}</pre>

@@ -17,7 +17,7 @@ export class FormUtils {
         case 'min':
           return `Valor minimo de ${errors['min'].min}.`;
         case 'email':
-          return `El valor no corresponde a un email.`;
+          return `El valor ingresado no es un correo electronico.`;
         case 'pattern':
           if( errors['pattern'].requiredPattern === FormUtils.emailPattern ) {
             return 'El valor no corresponde a un correo electrónico valido';

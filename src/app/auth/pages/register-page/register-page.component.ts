@@ -8,19 +8,20 @@ import { FormUtils } from '../../../utils/form-utils';
   imports: [JsonPipe, ReactiveFormsModule],
   templateUrl: './register-page.component.html',
 })
+
 export class RegisterPageComponent { 
   fb = inject(FormBuilder);
   formUtils = FormUtils
 
   myForm = this.fb.group({
-    name: ['', [Validators.required, Validators.pattern(this.formUtils.namePattern)]],
-    email: ['', [, Validators.email, Validators.pattern(this.formUtils.emailPattern)]],
-    username: ['', [Validators.required, Validators.minLength(6), Validators.pattern(this.formUtils.notOnlySpacesPattern)]],
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required, Validators.minLength(6)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    password2: ['', Validators.required]
+    password2: ['', Validators.required],
   });
 
-  onSubmit(){
+  onSubmit() {
     this.myForm.markAllAsTouched();
     console.log(this.myForm.value);
   }
