@@ -1,12 +1,46 @@
-import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, FormArray, FormGroup, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { of, delay, map } from "rxjs";
 
+export function customEmailValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value: string = control.value;
 
+    // Regex muy simple que valida el formato básico de un email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{3,}$/;
+
+    if (!value || emailRegex.test(value)) {
+      return null;
+    }
+
+    return { customEmail: 'El valor ingresado no luce como un correo electrónico válido.' };
+  };
+}
+
+// ✅ Validación ASINCRÓNICA que simula consulta a backend
+export function emailValidatorAsync(): AsyncValidatorFn {
+  return (control: AbstractControl): any => {
+    const value = control.value;
+
+    return of(value).pipe(
+      delay(2500), // simula 2.5 segundos de espera
+      map((email: string) => {
+        const forbiddenEmails = ['test@test.com'];
+        if (forbiddenEmails.includes(email.toLowerCase())) {
+          return { emailExists: true };
+        }
+        return null;
+      })
+    );
+  };
+}
 
 export class FormUtils {
 
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
-  static emailPattern = '^[a-z0-9_.%+-]+@[a-z0-9-]+\\.[a-z]{2-4}$';
+  static emailPattern = '^[a-z0-9_.%+-]+@[a-z0-9-]+\\.[a-z]{1-4}$';
   static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
+
+    
 
   static getTextError(errors: ValidationErrors){
     for( const key of Object.keys(errors) ) {
@@ -26,7 +60,7 @@ export class FormUtils {
             }
             return 'Error de patron contra expresion regular.'
         default:
-          return 'Error de validación no controlado.';
+          return 'El valor ingresado no es un correo electronico.';
       }
     }
     return null;
@@ -38,6 +72,7 @@ export class FormUtils {
     );
   };
 
+
   static getFieldError( form: FormGroup, fieldName: string ): string | null {
     if( !form.controls[ fieldName ]) return null;
 
@@ -46,11 +81,13 @@ export class FormUtils {
     return FormUtils.getTextError(errors);
   };
 
+
   static isValidFieldInArray(formArray: FormArray, index: number) {
     return (
       formArray.controls[index].errors && formArray.controls[index].touched
     );
   }
+
 
   static getFieldErrorInArray( formArray: FormArray, index: number ): string | null {
     if( formArray.controls.length === 0) return null;
@@ -68,8 +105,24 @@ export class FormUtils {
       const field2Value = formGrup.get(field2)?.value;
 
       return field1Value === field2Value ? null : { passwordsNotEqual: true };
-    }
+    };
   }
 
   
+  static async checkingServerResponse(control: AbstractControl):Promise<ValidationErrors | null> {
+    console.log('Validando contra el servidor');
+    
+    const formValue = control.value;
+
+    if (formValue === 'hola@mundo.com') {
+      return {
+        emailTaken: true,
+      }
+    }
+    return null;
+  }
+
+  
+  
+
 }
