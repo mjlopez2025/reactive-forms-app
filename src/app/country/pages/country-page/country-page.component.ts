@@ -2,7 +2,7 @@ import { Country } from './../../interafces/country.interface';
 import { CountryService } from './../../services/country.service';
 import { JsonPipe } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';import { switchMap, tap } from 'rxjs';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';import { filter, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -29,9 +29,11 @@ export class CountryPageComponent {
   onFormChanged = effect(( onCleanup) => {
 
   const regionSubscription = this.onRegionChanged();
+  const countrySubscription = this.onCountryChanged();
     
     onCleanup(() => {
       regionSubscription.unsubscribe();
+      countrySubscription.unsubscribe();
     });
   });
 
@@ -50,5 +52,21 @@ export class CountryPageComponent {
     .subscribe( (Countries) => {
         this.countriesByRegion.set(Countries);
       });
+  }
+
+  onCountryChanged() {
+    return this.myForm.get('country')!.valueChanges
+    .pipe(
+      tap(() => this.myForm.get('border')!.setValue('')),
+      filter(value => value!.length > 0),
+      switchMap( alphaCode => 
+        this.CountryService.getCountryByAlphaCode(alphaCode ?? '')
+    ),
+    switchMap(country => this.CountryService.getCountryNameByCodeArray(country.borders))
+      
+    )
+    .subscribe((borders) => {
+      console.log( {borders})
+    })
   }
 }
