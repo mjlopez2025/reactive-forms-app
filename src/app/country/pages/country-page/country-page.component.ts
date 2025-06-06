@@ -1,8 +1,8 @@
+import { Country } from './../../interafces/country.interface';
 import { CountryService } from './../../services/country.service';
 import { JsonPipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Country } from '../../interafces/country.interface';
+import { Component, effect, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -13,7 +13,7 @@ export class CountryPageComponent {
   fb = inject(FormBuilder);
   CountryService = inject(CountryService);
 
-  
+
   regions = signal(this.CountryService.regions);
   countriesByRegion = signal<Country[]>([]);
   borders = signal<Country[]>([]);
@@ -25,5 +25,30 @@ export class CountryPageComponent {
     border: ['', Validators.required],
   });
 
+
+  onFormChanged = effect(( onCleanup) => {
+
+  const regionSubscription = this.onRegionChanged();
+    
+    onCleanup(() => {
+      regionSubscription.unsubscribe();
+    });
+  });
+
+  onRegionChanged() {
+    return this.myForm
+    .get('region')!
+    .valueChanges.pipe(
+      tap(() => this.myForm.get('country')!.setValue('')),
+      tap(() => this.myForm.get('country')!.setValue('')),
+      tap(() => {
+        this.borders.set([]);
+        this.countriesByRegion.set([]);
+      }),
+      switchMap((region) => this.CountryService.getCountriesByRegion(region ?? '')),
+    )
+    .subscribe( (Countries) => {
+        this.countriesByRegion.set(Countries);
+      });
+  }
 }
- 
