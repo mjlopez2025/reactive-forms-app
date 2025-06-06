@@ -24,13 +24,13 @@ export class RegisterPageComponent {
   [emailValidatorAsync()]
 ),
 
-    username: ['', [Validators.required, Validators.minLength(6), Validators.pattern(FormUtils.notOnlySpacesPattern)]],
+    username: ['', [Validators.required, Validators.minLength(6), Validators.pattern(FormUtils.notOnlySpacesPattern), FormUtils.notStrider,]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     password2: ['', Validators.required],
   }, {
     validators: [FormUtils.isFieldOneEqualFieldTwo('password', 'password2')]    
   });
-
+ 
   onSubmit() {
     this.myForm.markAllAsTouched();
     console.log(this.myForm.value);

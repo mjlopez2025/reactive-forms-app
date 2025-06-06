@@ -53,6 +53,8 @@ export class FormUtils {
           return `Valor minimo de ${errors['min'].min}.`;
         case 'email':
           return `El valor ingresado no es un correo electronico.`;
+        case 'notStrider':
+          return `No se puede usar el username 'strider' en la app. `;
 
           case 'pattern':
             if( errors['pattern'].requiredPattern === FormUtils.emailPattern ) {
@@ -122,7 +124,12 @@ export class FormUtils {
     return null;
   }
 
-  
+  static notStrider(control: AbstractControl): ValidationErrors | null {
+
+    const value = control.value;
+    
+    return value === 'strider' ? { notStrider: true } : null;
+  }
   
 
 }
